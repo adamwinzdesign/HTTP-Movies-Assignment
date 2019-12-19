@@ -16,7 +16,7 @@ const UpdateMovie = props => {
     );
     console.log(props.items, itemToEdit);
     if(itemToEdit) {
-      setItem(itemToEdit);
+      setMovie(itemToEdit);
     }
   }, [props.items, props.match.params.id]);
 
@@ -38,9 +38,39 @@ const UpdateMovie = props => {
     axios
     .put(`http.//http://localhost:5000/api/movies/${movie.id}`, item)
     .then(res => {
-      props.updateMovie
+      props.updateMovie(res.data);
+      props.history.push('/movies');
     })
-  }
+    .catch(error => console.log(error.response));
+  };
+
+  return (
+    <div>
+      <h2>Update Movie!</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type='text'
+          name='name'
+          onChange={changeHandler}
+          placeholder='name'
+          value={item.name}
+        />
+        <input 
+          type='text'
+          name='director'
+          onChange={changeHandler}
+          placeholder='director'
+          value={item.director}
+        />
+        <input
+          type='number'
+          name='metascore'
+          onChange={changeHandler}
+          value={item.metascore}
+        />
+      </form>
+    </div>
+  )
   
 }
 
